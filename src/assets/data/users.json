@@ -1,28 +1,28 @@
 [
   {
     "id": 1,
-    "username": "manager",
+    "userName": "manager",
     "password": "123456",
     "role": "manager",
     "fullName": "Manager"
   },
   {
     "id": 2,
-    "username": "ma",
+    "userName": "ma",
     "password": "123456",
     "role": "employee",
     "fullName": "Mina Ahadi"
   },
   {
     "id": 3,
-    "username": "maj",
+    "userName": "maj",
     "password": "123456",
     "role": "employee",
     "fullName": "Arash Jahan"
   },
   {
     "id": 4,
-    "username": "si",
+    "userName": "si",
     "password": "123456",
     "role": "employee",
     "fullName": "Sara Izadi"

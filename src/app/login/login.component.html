@@ -19,10 +19,10 @@
               @if(loginForm.get('userName')?.invalid && loginForm.get('userName')?.touched){
               <div class="text-danger">
                 @if(loginForm.get('userName')?.errors?.['required']){
-                <small>Email is required.</small>
+                <small>UserName is required.</small>
                 }
                 @if(loginForm.get('userName')?.errors?.['userName']){
-                <small>Invalid userName address.</small>
+                <small>Invalid userName.</small>
                 }
               </div>
               }

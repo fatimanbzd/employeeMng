@@ -10,6 +10,7 @@ export interface ILoginResponseModel {
   password: string;
   fullName: string;
   role: RoleEnum;
+  token: string;
 }
 
 

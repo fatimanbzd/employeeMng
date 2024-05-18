@@ -8,9 +8,12 @@ import {ILoginResponseModel} from "../models/login.model";
 export class TokenStorageService {
   tokenInfo = 'token';
 
-  getAccessToken(): ILoginResponseModel {
+  getAccessToken(): ILoginResponseModel | null {
     const tokenValue = localStorage.getItem(this.tokenInfo);
-    return JSON.parse(tokenValue as string) as ILoginResponseModel;
+    if (tokenValue)
+      return JSON.parse(tokenValue as string) as ILoginResponseModel;
+    else
+      return null;
   }
 
   saveAccessToken(auth: ILoginResponseModel) {

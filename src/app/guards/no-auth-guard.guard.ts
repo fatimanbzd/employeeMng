@@ -14,5 +14,6 @@ export const NoAuthGuardGuard: CanActivateFn = (route: ActivatedRouteSnapshot,
   if (isAuthentication) {
     inject(Router).navigateByUrl('/pages');
   }
+  console.log(isAuthentication)
   return !isAuthentication;
 }

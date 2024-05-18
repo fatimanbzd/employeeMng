@@ -17,15 +17,22 @@ export class AuthService {
               private tokenStorageService: TokenStorageService) {
   }
 
-  login(model: ILoginModel): Observable<ILoginResponseModel> {
-    return this.http.post<ILoginResponseModel>(this.userUrl, model)
-      .pipe(tap((response) => {
-        this.tokenStorageService.saveAccessToken(response);
-      }));
+  login(model: ILoginModel): Observable<ILoginResponseModel | null> {
+    return this.http.get<ILoginResponseModel[]>(this.userUrl).pipe(
+      map(users => {
+        const user = users.find(u => u.userName === model.userName && u.password === model.password);
+        if (user) {
+          this.tokenStorageService.saveAccessToken(user);
+          return user;
+        } else {
+          return null; // Return null if the user is not found
+        }
+      })
+    );
   }
 
   getRole() {
-    return this.tokenStorageService.getAccessToken().role;
+    return this.tokenStorageService.getAccessToken()?.role;
   }
 
   isLoggedIn() {

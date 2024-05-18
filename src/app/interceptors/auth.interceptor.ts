@@ -1,18 +1,16 @@
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Inject, Injectable} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Router} from "@angular/router";
 
 import {catchError, EMPTY, Observable, throwError} from "rxjs";
+import {TokenStorageService} from "../services/token-storage.service";
 
-import {TokenStorageService} from "@core/services/token-storage.service";
-import {UserInformationStorageService} from "@core/services/user-information-storage.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class authInterceptor implements HttpInterceptor {
   constructor(private tokenStorageService: TokenStorageService,
-              private userInformationStorageService: UserInformationStorageService,
               private router: Router) {
   }
 
@@ -49,7 +47,6 @@ export class authInterceptor implements HttpInterceptor {
 
   private handle401() {
     this.tokenStorageService.removeTokens();
-    this.userInformationStorageService.removeUserInformation();
     this.router.navigate(['/login']);
     return EMPTY;
   }
