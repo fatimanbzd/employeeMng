@@ -4,7 +4,6 @@ import {Router} from "@angular/router";
 
 import {catchError, EMPTY, Observable, throwError} from "rxjs";
 
-import {IEnvironmentModel} from "@core/interfaces/environment.model";
 import {TokenStorageService} from "@core/services/token-storage.service";
 import {UserInformationStorageService} from "@core/services/user-information-storage.service";
 
@@ -12,8 +11,7 @@ import {UserInformationStorageService} from "@core/services/user-information-sto
   providedIn: 'root'
 })
 export class authInterceptor implements HttpInterceptor {
-  constructor(@Inject('environment') private environment: IEnvironmentModel,
-              private tokenStorageService: TokenStorageService,
+  constructor(private tokenStorageService: TokenStorageService,
               private userInformationStorageService: UserInformationStorageService,
               private router: Router) {
   }

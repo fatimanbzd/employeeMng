@@ -3,12 +3,28 @@
     "id": 1,
     "username": "manager",
     "password": "123456",
-    "role": 1
+    "role": "manager",
+    "fullName": "Manager"
   },
   {
-    "id": 1,
-    "username": "employee",
+    "id": 2,
+    "username": "ma",
     "password": "123456",
-    "role": 2
+    "role": "employee",
+    "fullName": "Mina Ahadi"
+  },
+  {
+    "id": 3,
+    "username": "maj",
+    "password": "123456",
+    "role": "employee",
+    "fullName": "Arash Jahan"
+  },
+  {
+    "id": 4,
+    "username": "si",
+    "password": "123456",
+    "role": "employee",
+    "fullName": "Sara Izadi"
   }
 ]

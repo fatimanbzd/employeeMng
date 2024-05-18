@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import {RoleEnum} from "../enums/role.enum";
 import {AuthService} from "../services/auth.service";
 
-export const ManagerGuard: CanActivateFn = (
+export const AuthGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ):

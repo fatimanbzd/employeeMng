@@ -1,0 +1,6 @@
+@for (activity of activities; track activity) {
+  <div>
+    <p>{{ activity.description }} - Completed: {{ activity.completed }}</p>
+    <button (click)="markAsCompleted(activity.id)">Mark as Completed</button>
+  </div>
+}

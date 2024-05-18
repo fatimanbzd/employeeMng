@@ -1,0 +1,7 @@
+<ul>
+  @for (activity of activities; track activity) {
+    <li>
+      {{ activity.description }} - Priority: {{ activity.priority }} - Completed: {{ activity.completed }}
+    </li>
+  }
+</ul>

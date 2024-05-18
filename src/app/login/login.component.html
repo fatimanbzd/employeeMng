@@ -1,0 +1,57 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3>Login</h3>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+            <div class="form-group">
+              <label for="userName">UserName</label>
+              <input
+                type="text"
+                id="userName"
+                formControlName="userName"
+                class="form-control"
+                placeholder="Enter userName"
+              />
+              @if(loginForm.get('userName')?.invalid && loginForm.get('userName')?.touched){
+              <div class="text-danger">
+                @if(loginForm.get('userName')?.errors?.['required']){
+                <small>Email is required.</small>
+                }
+                @if(loginForm.get('userName')?.errors?.['userName']){
+                <small>Invalid userName address.</small>
+                }
+              </div>
+              }
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                formControlName="password"
+                class="form-control"
+                placeholder="Enter password"
+              />
+
+              @if(loginForm.get('password')?.invalid && loginForm.get('password')?.touched){
+                <div class="text-danger">
+                  @if(loginForm.get('password')?.errors?.['required']){
+                    <small>Email is required.</small>
+                  }
+                  @if(loginForm.get('password')?.errors?.['minlength']){
+                    <small>Invalid userName address.</small>
+                  }
+                </div>
+              }
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

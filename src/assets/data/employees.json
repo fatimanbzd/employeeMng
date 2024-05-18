@@ -2,11 +2,25 @@
   {
     "id": 1,
     "name": "John Doe",
-    "activities": [1, 2]
+    "activities": [
+      {
+        "id": 1
+      },
+      {
+        "id": 2
+      }
+    ]
   },
   {
     "id": 2,
     "name": "Jane Smith",
-    "activities": [3, 4]
+    "activities": [
+      {
+        "id": 3
+      },
+      {
+        "id": 4
+      }
+    ]
   }
 ]
