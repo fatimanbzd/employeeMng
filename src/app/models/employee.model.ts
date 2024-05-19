@@ -1,7 +1,6 @@
 export interface IEmployeeModel {
   id: number;
   name: string;
-  activities: IActivityModel[];
 }
 
 export interface IActivityModel {
@@ -9,4 +8,6 @@ export interface IActivityModel {
   description: string;
   completed: boolean;
   priority: number;
+  employeeId: number;
+  assignedEmployee:IEmployeeModel
 }

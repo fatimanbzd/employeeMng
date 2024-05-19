@@ -1,0 +1,48 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 58px;
+  border-bottom: 1px solid #dadada;
+  padding: 10px 15px;
+
+  .icon-close {
+    font-size: 30px;
+    cursor: pointer;
+    /*color: red;*/
+  }
+}
+
+.box-input {
+
+  border: 1px solid #dadada;
+  border-radius: 5px;
+  outline: none;
+  padding-right: 5px;
+}
+
+.box-address-input {
+  /*display: block;*/
+  /*width: 400px;*/
+  width: 98%;
+  min-height: 120px;
+  border: 1px solid #dadada;
+  border-radius: 5px;
+  outline: none;
+  padding-right: 5px;
+  height: auto;
+}
+
+.title-inp {
+  font-size: 16px;
+  /*font-weight: bold;*/
+}
+
+.footer-modal {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 10px;
+}
+

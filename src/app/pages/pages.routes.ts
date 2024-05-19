@@ -7,7 +7,7 @@ import {TaskManagementComponent} from "../features/manager/components/task-manag
 export const Pages_ROUTES: Routes = [
   {
     path: '',
-    redirectTo: 'manager',
+    redirectTo: 'task-management',
     pathMatch: 'full'
   },
   {
@@ -15,19 +15,19 @@ export const Pages_ROUTES: Routes = [
     component: PagesComponent,
     children: [
       {
-        path: 'task',
-        component: ManagerPageComponent,
+        path: 'task-management',
+        component: TaskManagementComponent,
         data: {
           roles: [RoleEnum.manager]
         },
-        children: [
-          {
-            path: 'task-management', component: TaskManagementComponent,
-            data: {
-              roles: [RoleEnum.manager],
-            }
-          }
-        ]
+        // children: [
+        //   {
+        //     path: 'task-management', component: TaskManagementComponent,
+        //     data: {
+        //       roles: [RoleEnum.manager],
+        //     }
+        //   }
+        // ]
       },
     ]
   }

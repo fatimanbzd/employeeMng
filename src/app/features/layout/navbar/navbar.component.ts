@@ -52,6 +52,17 @@ export class NavbarComponent implements AfterViewInit {
           }
         ]
       },
+      {
+        label: 'Employee',
+        icon: 'user',
+        permission: currentRole === RoleEnum.employee,
+        children: [
+          {
+            label:'Task List',
+            route:'/'
+          }
+        ]
+      },
       // {
       //   label: 'کاربران',
       //   icon: 'team',

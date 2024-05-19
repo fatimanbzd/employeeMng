@@ -1,9 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {IActivityModel, IEmployeeModel} from "../../../../models/employee.model";
-import {ActivityService} from "../../../../services/activity.service";
+import {ManagerTaskManagementService} from "../../services/manager-task-mng.service";
 import {forkJoin, map} from "rxjs";
 import {NzTableComponent, NzTableModule} from "ng-zorro-antd/table";
 import {RouterLink} from "@angular/router";
+import {NzDividerComponent} from "ng-zorro-antd/divider";
+import {NzIconDirective} from "ng-zorro-antd/icon";
+import {NzButtonComponent} from "ng-zorro-antd/button";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {AddTaskDialogComponent} from "./add-task-dialog/add-task-dialog.component";
+import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
+import {FormsModule} from "@angular/forms";
+import {PriorityEnum, PriorityLabel} from "../../../enums/priority.enum";
 
 @Component({
   selector: 'app-task-management',
@@ -11,23 +19,43 @@ import {RouterLink} from "@angular/router";
   imports: [
     NzTableModule,
     NzTableComponent,
-    RouterLink
+    RouterLink,
+    NzDividerComponent,
+    NzIconDirective,
+    NzButtonComponent,
+    NzSelectComponent,
+    FormsModule,
+    NzOptionComponent
   ],
   templateUrl: './task-management.component.html',
   styleUrl: './task-management.component.css'
 })
 export class TaskManagementComponent implements OnInit {
-  employees: IEmployeeModel[] = [];
+  employees: IActivityModel[] = [];
 
-  constructor(private activityService: ActivityService) {
+  constructor(private activityService: ManagerTaskManagementService,
+              private modalService: NgbModal) {
     this.activityService.employees$.subscribe(employees => {
       this.employees = employees;
     });
   }
 
   ngOnInit(): void {
-    this.loadData()
+    this.loadPriorityOptions();
+    this.loadData();
   }
+
+  optionList: { value: PriorityEnum, label: string }[] = [];
+
+  loadPriorityOptions() {
+    this.optionList = Object.keys(PriorityEnum)
+      .filter((key) => isNaN(Number(key)))
+      .map((key) => ({
+        value: PriorityEnum[key as keyof typeof PriorityEnum],
+        label: PriorityLabel[PriorityEnum[key as keyof typeof PriorityEnum]]
+      }));
+  }
+
 
   loadData() {
     forkJoin({
@@ -35,17 +63,26 @@ export class TaskManagementComponent implements OnInit {
       activities: this.activityService.activities()
     }).pipe(
       map(({employees, activities}) => {
-        employees.forEach(employee => {
-          employee.activities = employee.activities.map((emActivity) => {
-            return activities.find(activity => activity.id === emActivity.id) as IActivityModel;
+        if (Array.isArray(employees) && Array.isArray(activities)) {
+          activities?.forEach(activity => {
+            activity.assignedEmployee = employees.find(employee => {
+              return (activity.employeeId === employee.id);
+            }) as IEmployeeModel;
+
           });
-        });
-        return employees;
+          return activities;
+        } else {
+          throw new Error('Expected arrays for employees and activities');
+        }
       })
     ).subscribe(employees => {
-      //console.log(employees)
       this.activityService.setActivity(employees);
     });
+  }
+
+  newTask(employeeId: number) {
+    const modalRef = this.modalService.open(AddTaskDialogComponent);
+    modalRef.componentInstance.employeeId = employeeId;
   }
 
   setPriority(employeeId: number, activityId: number, priority: number) {

@@ -10,11 +10,6 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'employee',
-    loadComponent: () => import('./pages/employee-page/employee-page.component').then(m => m.EmployeePageComponent),
-    canActivate: [AuthGuard],
-  },
-  {
     path: 'login',
     canActivate: [NoAuthGuardGuard],
     loadComponent: () => import('./login/login.component').then(m => m.LoginComponent)

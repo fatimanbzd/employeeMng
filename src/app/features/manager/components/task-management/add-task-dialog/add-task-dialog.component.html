@@ -1,0 +1,55 @@
+<div class="header col-12">
+  <h5 class="m-0">New Task</h5>
+  <i class="fa fa-close text-secondary" (click)="activeModal.close(false)" [ngbTooltip]="'Close'"></i>
+</div>
+<form id="profile-form"
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      class="setting_form p-1">
+  <div class="row p-0 m-0">
+    <div class="col-lg-6 mt-4">
+      <div class="form-row-title">
+        <label class="form-label required">Title</label>
+      </div>
+      <div class="form-row form-group">
+        <div class="custom-select-ui">
+          <input type="text"
+                 class="input-ui pr-2 box-input form-control"
+                 formControlName="title"
+                 [ngClass]="{'is-valid': submitted && form.controls['title'].valid, 'is-invalid': submitted && form.controls['title'].invalid}">
+          <span class="error"
+                [style.visibility]="form.get('title')?.invalid && (form.controls['title'].dirty || submitted) ? 'visible' : 'hidden'">
+           Title is required!
+          </span>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 mt-4">
+      <div class="form-label">
+        <label class="form-label required">
+          Description
+        </label>
+      </div>
+      <div class="form-row form-group">
+        <textarea name="address"
+                  class="input-ui pr-2 text-right box-address-input form-control"
+                  formControlName="description"></textarea>
+
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <div class="form-row mt-3 footer-modal">
+    <button type="button"
+            class="btn btn-danger btn-with-icon ml-2"
+            (click)="activeModal.close(false)"
+    >
+      close
+    </button>
+    <button id="submit-btn" type="submit" class="btn btn-success btn-with-icon ml-2">
+      Save
+    </button>
+  </div>
+</form>
