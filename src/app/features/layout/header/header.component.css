@@ -1,0 +1,32 @@
+
+.admin-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+}
+
+
+.header-trigger {
+  height: 64px;
+  padding: 0 24px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all .3s, padding 0s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+.profile-button {
+  display: inline-block;
+  margin-right: 27px
+}
+
+.menu-item:hover {
+  background-color: #cff4fc ;
+}

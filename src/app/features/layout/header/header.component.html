@@ -1,0 +1,25 @@
+<div class="admin-header">
+        <span class="header-trigger" (click)="headerTrigger()">
+            <span class="trigger"
+                  nz-icon
+                  [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            ></span>
+        </span>
+
+  <div class="profile-button">
+    <nz-button-group>
+      <button nz-button class="btn-user-name">Name </button>
+      <button nz-button class="btn-profile" nz-dropdown [nzDropdownMenu]="menu1" nzPlacement="bottomRight">
+        <span nz-icon nzType="user"></span>
+      </button>
+    </nz-button-group>
+    <nz-dropdown-menu #menu1="nzDropdownMenu">
+      <ul nz-menu>
+
+        <li nz-menu-item class="menu-item" (click)="logout()"><span nz-icon nzType="poweroff" nzTheme="outline"></span>
+          LogOut
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+  </div>
+</div>

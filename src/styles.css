@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+html body {
+  --antd-wave-shadow-color: #49b29a;
+  background-color: #F8F8F8;
+}
+
+body {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.45;
+  color: #626262;
+  background-color: #F8F8F8;
+}
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}

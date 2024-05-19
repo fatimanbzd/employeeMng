@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {IActivityModel} from "../models/employee.model";
-import {ActivityService} from "../services/activity.service";
+import {IActivityModel} from "../../models/employee.model";
+import {ActivityService} from "../../services/activity.service";
 import {ActivatedRoute} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
 

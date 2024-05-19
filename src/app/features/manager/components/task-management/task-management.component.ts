@@ -1,17 +1,22 @@
 import {Component, OnInit} from '@angular/core';
-import {IActivityModel, IEmployeeModel} from "../models/employee.model";
-import {ActivityService} from "../services/activity.service";
+import {IActivityModel, IEmployeeModel} from "../../../../models/employee.model";
+import {ActivityService} from "../../../../services/activity.service";
 import {forkJoin, map} from "rxjs";
+import {NzTableComponent, NzTableModule} from "ng-zorro-antd/table";
+import {RouterLink} from "@angular/router";
 
 @Component({
-  selector: 'app-manager',
+  selector: 'app-task-management',
   standalone: true,
-  imports: [],
-  providers: [],
-  templateUrl: './manager.component.html',
-  styleUrl: './manager.component.css'
+  imports: [
+    NzTableModule,
+    NzTableComponent,
+    RouterLink
+  ],
+  templateUrl: './task-management.component.html',
+  styleUrl: './task-management.component.css'
 })
-export class ManagerComponent implements OnInit {
+export class TaskManagementComponent implements OnInit {
   employees: IEmployeeModel[] = [];
 
   constructor(private activityService: ActivityService) {
@@ -46,4 +51,5 @@ export class ManagerComponent implements OnInit {
   setPriority(employeeId: number, activityId: number, priority: number) {
     this.activityService.setActivityPriority(employeeId, activityId, priority);
   }
+
 }

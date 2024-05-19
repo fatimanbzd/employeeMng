@@ -3,7 +3,7 @@
     "id": 1,
     "userName": "manager",
     "password": "123456",
-    "role": "manager",
+    "role": 1,
     "fullName": "Manager"
   },
   {
@@ -17,13 +17,13 @@
     "id": 3,
     "userName": "maj",
     "password": "123456",
-    "role": "employee",
+    "role": 2,
     "fullName": "Arash Jahan"
   },
   {
     "id": 4,
     "userName": "si",
-    "password": "123456",
+    "password": 2,
     "role": "employee",
     "fullName": "Sara Izadi"
   }

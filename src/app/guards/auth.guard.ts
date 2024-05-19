@@ -12,16 +12,8 @@ export const AuthGuard: CanActivateFn = (
   | Promise<boolean | UrlTree>
   | boolean
   | UrlTree => {
-  if (inject(AuthService).isLoggedIn()) {
-    debugger
-    const expectedRoles: RoleEnum[] = route.data['roles'];
-    const userRole: RoleEnum | undefined = inject(AuthService).getRole();
-    if (userRole && expectedRoles.some((role) => userRole && userRole === role)) {
-      return true;
-    } else {
-      return inject(Router).createUrlTree(['/login']);
-    }
-  } else {
-    return inject(Router).createUrlTree(['/login']);
+  if (! inject(AuthService).isLoggedIn()) {
+    return inject(Router).navigate(['/login'], {queryParams: {returnUrl: state.url}})
   }
+  return true
 };

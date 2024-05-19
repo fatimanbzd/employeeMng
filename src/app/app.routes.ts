@@ -1,21 +1,18 @@
 import {Routes} from '@angular/router';
 import {AuthGuard} from "./guards/auth.guard";
 import {NoAuthGuardGuard} from "./guards/no-auth-guard.guard";
-import {RoleEnum} from "./enums/role.enum";
 
 export const routes: Routes = [
-  {path: '', redirectTo: '/manager', pathMatch: 'full'},
+  {path: '', pathMatch: 'full', redirectTo: '/pages'},
   {
-    path: 'manager',
-    loadComponent: () => import('./manager/manager.component').then(m => m.ManagerComponent),
+    path: 'pages',
+    loadChildren: () => import('./pages/pages.routes').then(m => m.Pages_ROUTES),
     canActivate: [AuthGuard],
-    data: { roles: [RoleEnum.manager] }
   },
   {
     path: 'employee',
-    loadComponent: () => import('./employee/employee.component').then(m => m.EmployeeComponent),
+    loadComponent: () => import('./pages/employee-page/employee-page.component').then(m => m.EmployeePageComponent),
     canActivate: [AuthGuard],
-    data: { roles: [RoleEnum.employee] }
   },
   {
     path: 'login',

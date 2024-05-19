@@ -1,0 +1,28 @@
+<div class="sidebar-logo">
+  <a href="https://ng.ant.design/" target="_blank">
+    <h1>Panel</h1>
+  </a>
+</div>
+<ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+
+  @for (menu of menuList; track $index) {
+    @if (menu.permission) {
+      @if (menu.children) {
+        <li nz-submenu nzOpen nzTitle="{{menu.label}}" nzIcon="{{menu.icon}}">
+          <ul>
+            @for (child of menu.children; track $index) {
+              <li nz-menu-item nzMatchRouter>
+                <a class="span-router" routerLink="{{child.route}}">{{ child.label }}</a>
+              </li>
+            }
+          </ul>
+        </li>
+      } @else {
+        <li nz-menu-item nzMatchRouter>
+          <span nz-icon nzType="{{menu.icon}}"></span>
+          <a routerLink="{{menu.route}}">{{ menu.label }}</a>
+        </li>
+      }
+    }
+  }
+</ul>
