@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IActivityModel} from "../../models/employee.model";
-import {ManagerTaskMngService} from "../manager/services/manager-task-mng.service";
+import {ManagerTaskMngService} from "../services/task.service";
 import {ActivatedRoute} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
 

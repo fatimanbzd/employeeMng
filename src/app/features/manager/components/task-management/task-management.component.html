@@ -1,9 +1,16 @@
+<div class="mb-3">
+  <button nz-button nzType="primary" (click)="newTask()">
+    <span nz-icon nzType="plus"></span>
+    New Task
+  </button>
+</div>
 <nz-table #tasksData [nzData]="tasks">
   <thead>
   <tr>
     <th>Task Title</th>
     <th>Employee</th>
     <th>priority</th>
+    <th>Completed</th>
   </tr>
   </thead>
   <tbody>
@@ -31,6 +38,15 @@
           >
           </nz-select>
 
+        </td>
+        <td>
+          <button class="btn" (click)="complete(task.completed,task)">
+          @if (task.completed) {
+            <span nz-icon nzType="check" nzTheme="outline" class="text-success "></span>
+          } @else {
+            <span nz-icon nzType="close" nzTheme="outline" class="text-danger"></span>
+          }
+          </button>
         </td>
       </tr>
     }

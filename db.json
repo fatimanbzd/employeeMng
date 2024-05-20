@@ -14,13 +14,13 @@
       "employeeId": "2",
       "id": "1",
       "priority": "1",
-      "completed": false,
+      "completed": true,
       "description": "Prepare project report"
     },
     {
       "employeeId": "1",
       "id": "2",
-      "priority": "2",
+      "priority": "0",
       "completed": false,
       "description": "Update website content"
     },
@@ -34,9 +34,49 @@
     {
       "employeeId": "2",
       "id": "4",
-      "priority": "0",
+      "priority": "1",
       "completed": false,
       "description": "Organize team meeting"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "userName": "manager",
+      "password": "123456",
+      "role": "1",
+      "fullName": "Manager"
+    },
+    {
+      "id": "2",
+      "userName": "ma",
+      "password": "123456",
+      "role": "2",
+      "fullName": "Mina Ahadi"
+    },
+    {
+      "id": "3",
+      "userName": "maj",
+      "password": "123456",
+      "role": "2",
+      "fullName": "Arash Jahan"
+    },
+    {
+      "id": "4",
+      "userName": "si",
+      "password": "123456",
+      "role": "2",
+      "fullName": "Sara Izadi"
+    }
+  ],
+  "roles": [
+    {
+      "id": "1",
+      "name": "manager"
+    },
+    {
+      "id": "2",
+      "name": "employee"
     }
   ]
 }

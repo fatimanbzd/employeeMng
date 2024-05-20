@@ -3,7 +3,8 @@ import {NgbActiveModal, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Subject} from "rxjs";
 import {NgClass} from "@angular/common";
-import {ManagerTaskManagementService} from "../../../services/manager-task-mng.service";
+import {TaskService} from "../../../../services/task.service";
+import {IActivityModel} from "../../../../../models/employee.model";
 
 @Component({
   selector: 'app-add-task-dialog',
@@ -24,7 +25,7 @@ export class AddTaskDialogComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder,
               public activeModal: NgbActiveModal,
-              private activityService: ManagerTaskManagementService,) {
+              private activityService: TaskService,) {
   }
 
   ngOnInit() {
@@ -33,15 +34,18 @@ export class AddTaskDialogComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.form = this.fb.group({
-      title: [null, Validators.required],
-      description: [null],
+      description: [null, Validators.required],
       priority: [null],
-      completed: [null, Validators.required]
+      completed: [false, Validators.required]
     });
   }
 
   submit() {
-    this.activityService.addTask(this.employeeId, this.form.value);
+    //
+    // const model : IActivityModel={
+    //   completed:false,
+    // }
+    // this.activityService.addTask(this.employeeId,);
   }
 
   ngOnDestroy() {

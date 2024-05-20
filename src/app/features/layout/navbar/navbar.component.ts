@@ -27,10 +27,10 @@ import {NgIf} from "@angular/common";
 export class NavbarComponent implements AfterViewInit {
   @Input('isCollapsed') isCollapsed = false;
   public menuList!: IMenuModel[];
-
+  currentRole
   constructor(private authService: AuthService) {
-    const currentRole = this.authService.getRole();
-    this.constructMenu(currentRole);
+    this.currentRole = this.authService.getRole();
+    this.constructMenu(this.currentRole);
   }
 
   ngAfterViewInit() {
@@ -43,7 +43,7 @@ export class NavbarComponent implements AfterViewInit {
       {
         label: 'Manager',
         icon: 'home',
-        permission: currentRole === RoleEnum.manager,
+        permission: currentRole == RoleEnum.manager,
         children: [
           {
             label:'Task Management',
@@ -53,12 +53,12 @@ export class NavbarComponent implements AfterViewInit {
       },
       {
         label: 'Employee',
-        icon: 'user',
-        permission: currentRole === RoleEnum.employee,
+        icon: 'task',
+        permission: currentRole == RoleEnum.employee,
         children: [
           {
             label:'Task List',
-            route:'/'
+            route:'/pages/task-list'
           }
         ]
       },
@@ -86,4 +86,5 @@ export class NavbarComponent implements AfterViewInit {
     ];
   }
 
+  protected readonly RoleEnum = RoleEnum;
 }

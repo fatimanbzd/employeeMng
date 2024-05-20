@@ -14,6 +14,7 @@ export const ManagerGuard: CanActivateFn = (
   | boolean
   | UrlTree => {
   if (inject(AuthService).isLoggedIn()) {
+    debugger
     const expectedRoles: RoleEnum[] = route.data['roles'];
     const userRole: RoleEnum | undefined = inject(AuthService).getRole();
     if (userRole && expectedRoles.some((role) => userRole && userRole === role)) {

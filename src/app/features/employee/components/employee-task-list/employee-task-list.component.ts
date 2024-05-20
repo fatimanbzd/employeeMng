@@ -1,37 +1,41 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {IActivityModel, IEmployeeModel, IEmployeeOption} from "../../../../models/employee.model";
-import {TaskService} from "../../../services/task.service";
-import {forkJoin, map, Subject, takeUntil} from "rxjs";
-import {NzTableComponent, NzTableModule} from "ng-zorro-antd/table";
-import {RouterLink} from "@angular/router";
-import {NzDividerComponent} from "ng-zorro-antd/divider";
-import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzButtonComponent} from "ng-zorro-antd/button";
+import {NzIconDirective} from "ng-zorro-antd/icon";
+import {NzSelectComponent} from "ng-zorro-antd/select";
+import {
+    NzTableCellDirective,
+    NzTableComponent,
+    NzTbodyComponent,
+    NzTheadComponent,
+    NzThMeasureDirective, NzTrDirective
+} from "ng-zorro-antd/table";
+import {IActivityModel, IEmployeeModel, IEmployeeOption} from "../../../../models/employee.model";
+import {forkJoin, map, Subject, takeUntil} from "rxjs";
+import {TaskService} from "../../../services/task.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {AddTaskDialogComponent} from "./add-task-dialog/add-task-dialog.component";
-import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
-import {FormsModule} from "@angular/forms";
 import {PriorityEnum, PriorityLabel} from "../../../enums/priority.enum";
+import {
+  AddTaskDialogComponent
+} from "../../../manager/components/task-management/add-task-dialog/add-task-dialog.component";
 
 @Component({
-  selector: 'app-task-management',
+  selector: 'app-employee-task-list',
   standalone: true,
-  imports: [
-    NzTableModule,
-    NzTableComponent,
-    RouterLink,
-    NzDividerComponent,
-    NzIconDirective,
-    NzButtonComponent,
-    NzSelectComponent,
-    FormsModule,
-    NzOptionComponent,
-  ],
-  templateUrl: './task-management.component.html',
-  styleUrl: './task-management.component.css'
+    imports: [
+        NzButtonComponent,
+        NzIconDirective,
+        NzSelectComponent,
+        NzTableCellDirective,
+        NzTableComponent,
+        NzTbodyComponent,
+        NzThMeasureDirective,
+        NzTheadComponent,
+        NzTrDirective
+    ],
+  templateUrl: './employee-task-list.component.html',
+  styleUrl: './employee-task-list.component.css'
 })
-
-export class TaskManagementComponent implements OnInit, OnDestroy {
+export class EmployeeTaskListComponent implements OnInit, OnDestroy {
   tasks: IActivityModel[] = [];
   employeesList: IEmployeeOption[] = [];
   private _destroy = new Subject<void>();
@@ -123,4 +127,5 @@ export class TaskManagementComponent implements OnInit, OnDestroy {
     this._destroy.next();
     this._destroy.complete();
   }
+
 }
