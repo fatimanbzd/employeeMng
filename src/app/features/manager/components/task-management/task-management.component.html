@@ -1,4 +1,4 @@
-<nz-table #employeeData [nzData]="employees">
+<nz-table #tasksData [nzData]="tasks">
   <thead>
   <tr>
     <th>Task Title</th>
@@ -7,15 +7,25 @@
   </tr>
   </thead>
   <tbody>
-    @for (data of employeeData.data; track $index) {
+    @for (task of tasksData.data; track $index) {
       <tr>
-        <td>{{ data.description }}</td>
-        <td>{{ data.assignedEmployee.name }}</td>
+        <td>{{ task.description }}</td>
+
         <td>
           <nz-select
-            name="{{data.id+$index}}"
-            [(ngModel)]="data.priority"
-            (ngModelChange)="setPriority(data.employeeId,data.id,$event)"
+            [name]="task.id + '-' + task.employeeId + '-' + $index"
+            [(ngModel)]="task.employeeId"
+            (ngModelChange)="setEmployee(task,$event)"
+            nzPlaceHolder="Choose"
+            [nzOptions]="employeesList"
+          >
+          </nz-select>
+        </td>
+        <td>
+          <nz-select
+            [name]="task.id+ '-'+$index"
+            [(ngModel)]="task.priority"
+            (ngModelChange)="setPriority(task,$event)"
             nzPlaceHolder="Choose"
             [nzOptions]="optionList"
           >

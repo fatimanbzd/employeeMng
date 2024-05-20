@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {IActivityModel, IEmployeeModel} from "../../../models/employee.model";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {PriorityEnum} from "../../enums/priority.enum";
@@ -10,8 +10,6 @@ import {PriorityEnum} from "../../enums/priority.enum";
   providedIn: 'root'
 })
 export class ManagerTaskManagementService {
-  private employeesUrl = 'assets/data/employees.json';
-  private activitiesUrl = 'assets/data/activities.json';
 
   private employeesSubject = new BehaviorSubject<IActivityModel[]>([]);
   employees$ = this.employeesSubject.asObservable();
@@ -37,7 +35,7 @@ export class ManagerTaskManagementService {
     return this.http.get<IActivityModel[]>(`${this.basUrl}tasks`);
   }
 
-  addActivity(employeeId: number, activity: IActivityModel) {
+  addTask(employeeId: number, activity: IActivityModel) {
     // // this.http.post('')
     // const employees = this.employeesSubject.getValue();
     // const employee = employees.find(emp => emp.id === employeeId);
@@ -59,14 +57,27 @@ export class ManagerTaskManagementService {
   //   }
   // }
 
-  setActivityPriority(employeeId: number, taskId: number, priority: PriorityEnum) {
+  setActivityPriority(activity: IActivityModel, priority: PriorityEnum) {
     const model = {
-      employeeId: employeeId,
-      activityId: taskId,
-      priority: priority
+      employeeId: activity.employeeId,
+      id: activity.id,
+      priority: priority,
+      completed: false,
+      description: activity.description
     }
 
-    return this.http.put(`${this.basUrl}tasks/${taskId}`, model);
+    return this.http.put(`${this.basUrl}tasks/${activity.id}`, model);
+  }
+  assignToEmployee(task: IActivityModel, selectedEmployeeId: number) {
+    const model = {
+      employeeId: selectedEmployeeId,
+      id: task.id,
+      priority: task.priority,
+      completed: false,
+      description: task.description
+    }
+
+    return this.http.put(`${this.basUrl}tasks/${task.id}`, model);
 
   }
 }

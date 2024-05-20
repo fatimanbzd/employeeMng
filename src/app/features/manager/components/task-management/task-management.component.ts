@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IActivityModel, IEmployeeModel} from "../../../../models/employee.model";
+import {IActivityModel, IEmployeeModel, IEmployeeOption} from "../../../../models/employee.model";
 import {ManagerTaskManagementService} from "../../services/manager-task-mng.service";
 import {forkJoin, map} from "rxjs";
 import {NzTableComponent, NzTableModule} from "ng-zorro-antd/table";
@@ -30,13 +30,15 @@ import {PriorityEnum, PriorityLabel} from "../../../enums/priority.enum";
   templateUrl: './task-management.component.html',
   styleUrl: './task-management.component.css'
 })
+
 export class TaskManagementComponent implements OnInit {
-  employees: IActivityModel[] = [];
+  tasks: IActivityModel[] = [];
+  employeesList: IEmployeeOption[] = [];
 
   constructor(private activityService: ManagerTaskManagementService,
               private modalService: NgbModal) {
-    this.activityService.employees$.subscribe(employees => {
-      this.employees = employees;
+    this.activityService.employees$.subscribe(tasks => {
+      this.tasks = tasks;
     });
   }
 
@@ -45,13 +47,13 @@ export class TaskManagementComponent implements OnInit {
     this.loadData();
   }
 
-  optionList: { value: PriorityEnum, label: string }[] = [];
+  optionList: { value: string, label: string }[] = [];
 
   loadPriorityOptions() {
     this.optionList = Object.keys(PriorityEnum)
       .filter((key) => isNaN(Number(key)))
       .map((key) => ({
-        value: PriorityEnum[key as keyof typeof PriorityEnum],
+        value: PriorityEnum[key as keyof typeof PriorityEnum].toString(),
         label: PriorityLabel[PriorityEnum[key as keyof typeof PriorityEnum]]
       }));
   }
@@ -66,10 +68,15 @@ export class TaskManagementComponent implements OnInit {
         if (Array.isArray(employees) && Array.isArray(activities)) {
           activities?.forEach(activity => {
             activity.assignedEmployee = employees.find(employee => {
-              return (activity.employeeId === employee.id);
+              return (activity.employeeId == employee.id);
             }) as IEmployeeModel;
 
           });
+
+          this.employeesList = employees.map((m: IEmployeeModel) => ({
+            label: m.name,
+            value: m.id
+          }));
           return activities;
         } else {
           throw new Error('Expected arrays for employees and activities');
@@ -85,8 +92,18 @@ export class TaskManagementComponent implements OnInit {
     modalRef.componentInstance.employeeId = employeeId;
   }
 
-  setPriority(employeeId: number, activityId: number, priority: number) {
-    this.activityService.setActivityPriority(employeeId, activityId, priority);
+  setPriority(task: IActivityModel, priority: number) {
+    this.activityService.setActivityPriority(task, priority)
+      .subscribe();
   }
 
+  setEmployee(task: IActivityModel, selectedEmployeeId: number) {
+    const selectedEmployee = this.employeesList.find(emp => emp.value === selectedEmployeeId);
+    if (selectedEmployee) {
+      task.assignedEmployee.id = selectedEmployee.value;
+      task.assignedEmployee.name = selectedEmployee.label;
+      this.activityService.assignToEmployee(task, selectedEmployeeId)
+        .subscribe();
+    }
+  }
 }

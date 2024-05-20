@@ -5,7 +5,6 @@ import {RoleEnum} from "../../../enums/role.enum";
 import {NzMenuDirective, NzMenuItemComponent, NzSubMenuComponent} from "ng-zorro-antd/menu";
 import {RouterLink} from "@angular/router";
 import {NzIconDirective, NzIconModule} from "ng-zorro-antd/icon";
-import {NzBreadCrumbItemComponent} from "ng-zorro-antd/breadcrumb";
 import {NzLayoutModule} from "ng-zorro-antd/layout";
 import {NgIf} from "@angular/common";
 
@@ -48,7 +47,7 @@ export class NavbarComponent implements AfterViewInit {
         children: [
           {
             label:'Task Management',
-            route:'/manager/task-management'
+            route:'/pages/task-management'
           }
         ]
       },

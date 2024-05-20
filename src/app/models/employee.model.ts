@@ -11,3 +11,8 @@ export interface IActivityModel {
   employeeId: number;
   assignedEmployee:IEmployeeModel
 }
+
+export interface IEmployeeOption {
+  label: string;
+  value: number;
+}

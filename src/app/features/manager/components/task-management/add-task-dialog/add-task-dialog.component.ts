@@ -41,8 +41,7 @@ export class AddTaskDialogComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-
-    this.activityService.addActivity(this.employeeId, this.form.value);
+    this.activityService.addTask(this.employeeId, this.form.value);
   }
 
   ngOnDestroy() {
