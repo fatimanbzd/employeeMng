@@ -4,6 +4,7 @@ import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzButtonComponent, NzButtonGroupComponent} from "ng-zorro-antd/button";
 import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
 import {AuthService} from "../../../services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -24,12 +25,14 @@ export class HeaderComponent  {
   @Input('isCollapsed') isCollapsed = false;
   @Output() trigger: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(private authService:AuthService) {
+  constructor(private authService:AuthService,
+              private router: Router) {
 
   }
 
   logout() {
    this.authService.logOut();
+   this.router.navigateByUrl('/login')
   }
 
   headerTrigger() {

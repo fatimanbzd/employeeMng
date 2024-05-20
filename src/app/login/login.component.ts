@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService} from "../services/auth.service";
 import {RoleEnum} from "../enums/role.enum";
-import {Route, Router} from "@angular/router";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -32,14 +32,23 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  get password() {
+    return this.loginForm.controls['password'].value;
+  }
+
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value)
         .subscribe(user => {
-          if (user?.role == RoleEnum.manager)
-            this.router.navigateByUrl('/manager');
+          if (user.length > 0 && user[0].password === this.password) {
+            this.authService.setToken(user[0]);
+            if (user[0]?.role == RoleEnum.manager)
+              this.router.navigateByUrl('/pages/task-management');
+            else
+              this.router.navigateByUrl('/pages/task-list');
+          }
           else
-            this.router.navigateByUrl('/employee');
+          this.router.navigateByUrl('/login');
         })
     } else {
       Object.values(this.loginForm.controls).forEach(control => {
