@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, Input} from '@angular/core';
-import {AuthService} from "../../../services/auth.service";
+import {AuthService} from "../../../shared/services/auth.service";
 import {IMenuModel} from "../menu.model";
-import {RoleEnum} from "../../../enums/role.enum";
+import {RoleEnum} from "../../../shared/enums/role.enum";
 import {NzMenuDirective, NzMenuItemComponent, NzSubMenuComponent} from "ng-zorro-antd/menu";
 import {RouterLink} from "@angular/router";
 import {NzIconDirective, NzIconModule} from "ng-zorro-antd/icon";

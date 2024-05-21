@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {AuthService} from "../services/auth.service";
-import {RoleEnum} from "../enums/role.enum";
+import {AuthService} from "../shared/services/auth.service";
+import {RoleEnum} from "../shared/enums/role.enum";
 import {Router} from "@angular/router";
 
 @Component({

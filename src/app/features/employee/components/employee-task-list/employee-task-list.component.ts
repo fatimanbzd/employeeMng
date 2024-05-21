@@ -3,13 +3,13 @@ import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzSelectComponent} from "ng-zorro-antd/select";
 import {
-    NzTableCellDirective,
-    NzTableComponent,
-    NzTbodyComponent,
-    NzTheadComponent,
-    NzThMeasureDirective, NzTrDirective
+  NzTableCellDirective,
+  NzTableComponent,
+  NzTbodyComponent,
+  NzTheadComponent,
+  NzThMeasureDirective, NzTrDirective
 } from "ng-zorro-antd/table";
-import {IActivityModel, IEmployeeModel, IEmployeeOption} from "../../../../models/employee.model";
+import {IActivityModel, IEmployeeModel, IEmployeeOption} from "../../../../shared/models/employee.model";
 import {forkJoin, map, Subject, takeUntil} from "rxjs";
 import {TaskService} from "../../../services/task.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
@@ -21,17 +21,17 @@ import {
 @Component({
   selector: 'app-employee-task-list',
   standalone: true,
-    imports: [
-        NzButtonComponent,
-        NzIconDirective,
-        NzSelectComponent,
-        NzTableCellDirective,
-        NzTableComponent,
-        NzTbodyComponent,
-        NzThMeasureDirective,
-        NzTheadComponent,
-        NzTrDirective
-    ],
+  imports: [
+    NzButtonComponent,
+    NzIconDirective,
+    NzSelectComponent,
+    NzTableCellDirective,
+    NzTableComponent,
+    NzTbodyComponent,
+    NzThMeasureDirective,
+    NzTheadComponent,
+    NzTrDirective
+  ],
   templateUrl: './employee-task-list.component.html',
   styleUrl: './employee-task-list.component.css'
 })
@@ -42,8 +42,8 @@ export class EmployeeTaskListComponent implements OnInit, OnDestroy {
 
   constructor(private activityService: TaskService,
               private modalService: NgbModal) {
-    this.activityService.employees$.subscribe(tasks => {
-      this.tasks = tasks;
+    this.activityService.taskUpdated$.subscribe(() => {
+      this.loadData();
     });
   }
 
@@ -88,8 +88,8 @@ export class EmployeeTaskListComponent implements OnInit, OnDestroy {
           throw new Error('Expected arrays for employees and activities');
         }
       })
-    ).subscribe(employees => {
-      this.activityService.setActivity(employees);
+    ).subscribe(tasks => {
+      this.tasks = tasks;
     });
   }
 
@@ -106,22 +106,6 @@ export class EmployeeTaskListComponent implements OnInit, OnDestroy {
       );
   }
 
-  setPriority(task: IActivityModel, priority: number) {
-    this.activityService.setActivityPriority(task, priority)
-      .pipe(takeUntil(this._destroy))
-      .subscribe();
-  }
-
-  setEmployee(task: IActivityModel, selectedEmployeeId: number) {
-    const selectedEmployee = this.employeesList.find(emp => emp.value === selectedEmployeeId);
-    if (selectedEmployee) {
-      task.assignedEmployee.id = selectedEmployee.value;
-      task.assignedEmployee.name = selectedEmployee.label;
-      this.activityService.assignToEmployee(task, selectedEmployeeId)
-        .pipe(takeUntil(this._destroy))
-        .subscribe();
-    }
-  }
 
   ngOnDestroy() {
     this._destroy.next();

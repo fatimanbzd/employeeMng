@@ -3,7 +3,7 @@ import {Injectable} from "@angular/core";
 import {Router} from "@angular/router";
 
 import {catchError, EMPTY, Observable, throwError} from "rxjs";
-import {TokenStorageService} from "../services/token-storage.service";
+import {TokenStorageService} from "../shared/services/token-storage.service";
 
 
 @Injectable({

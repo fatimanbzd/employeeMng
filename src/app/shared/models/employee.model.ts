@@ -4,14 +4,21 @@ export interface IEmployeeModel {
 }
 
 export interface IActivityModel {
-  id: number;
-  description: string;
+  id: string;
+  title: string;
   completed: boolean;
   priority: number;
   employeeId: number;
-  assignedEmployee:IEmployeeModel
+  assignedEmployee: IEmployeeModel
 }
 
+export interface IActivityAddModel {
+  id: string;
+  title: string;
+  completed: boolean;
+  priority?: number;
+  employeeId?: number;
+}
 export interface IEmployeeOption {
   label: string;
   value: number;

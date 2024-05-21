@@ -1,5 +1,5 @@
 <div class="mb-3">
-  <button nz-button nzType="primary" (click)="newTask()">
+  <button nz-button nzType="primary" (click)="modalTask()">
     <span nz-icon nzType="plus"></span>
     New Task
   </button>
@@ -9,14 +9,20 @@
   <tr>
     <th>Task Title</th>
     <th>Employee</th>
-    <th>priority</th>
+    <th [nzFilters]="priorityFilterList">priority</th>
     <th>Completed</th>
   </tr>
   </thead>
   <tbody>
     @for (task of tasksData.data; track $index) {
-      <tr>
-        <td>{{ task.description }}</td>
+      <tr class="editable-row">
+        <td>
+
+          <div class="editable-cell" [hidden]="editId === task.id" (click)="startEdit(task.id)">
+            {{ task.title }}
+          </div>
+          <input [hidden]="editId !== task.id" type="text" nz-input [(ngModel)]="task.title" (blur)="stopEdit()" />
+        </td>
 
         <td>
           <nz-select

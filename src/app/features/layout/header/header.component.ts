@@ -3,7 +3,7 @@ import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdo
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzButtonComponent, NzButtonGroupComponent} from "ng-zorro-antd/button";
 import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
-import {AuthService} from "../../../services/auth.service";
+import {AuthService} from "../../../shared/services/auth.service";
 import {Router} from "@angular/router";
 
 @Component({

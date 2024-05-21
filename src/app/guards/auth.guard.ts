@@ -1,8 +1,8 @@
 import {ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {inject} from "@angular/core";
 import {Observable} from "rxjs";
-import {RoleEnum} from "../enums/role.enum";
-import {AuthService} from "../services/auth.service";
+import {RoleEnum} from "../shared/enums/role.enum";
+import {AuthService} from "../shared/services/auth.service";
 
 export const AuthGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {IActivityModel, IEmployeeModel} from "../../models/employee.model";
-import {BehaviorSubject, Subject} from "rxjs";
+import {IActivityAddModel, IActivityModel, IEmployeeModel} from "../../shared/models/employee.model";
+import {Subject} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {PriorityEnum} from "../enums/priority.enum";
@@ -11,8 +11,8 @@ import {PriorityEnum} from "../enums/priority.enum";
 })
 export class TaskService {
 
-  private employeesSubject = new BehaviorSubject<IActivityModel[]>([]);
-  employees$ = this.employeesSubject.asObservable();
+  private taskUpdatedSubject = new Subject<void>();
+  taskUpdated$ = this.taskUpdatedSubject.asObservable();
 
   readonly basUrl = environment.url;
 
@@ -20,8 +20,8 @@ export class TaskService {
   }
 
 
-  setActivity(activities: IActivityModel[]) {
-    this.employeesSubject.next(activities)
+  setActivity() {
+    this.taskUpdatedSubject.next()
   }
 
   employees() {
@@ -32,17 +32,17 @@ export class TaskService {
     return this.http.get<IActivityModel[]>(`${this.basUrl}tasks`);
   }
 
-  addTask(activity: IActivityModel) {
-    this.http.post(`${this.basUrl}tasks`, activity);
+  addTask(activity: IActivityAddModel) {
+   return this.http.post(`${this.basUrl}tasks`, activity);
   }
 
   markTaskCompleted(completed: boolean, task: IActivityModel) {
-    const model = {
+    const model:IActivityAddModel = {
       employeeId: task.employeeId,
       id: task.id,
       priority: task.priority,
       completed: completed,
-      description: task.description
+      title: task.title
     }
 
     return this.http.put(`${this.basUrl}tasks/${task.id}`, model);
@@ -54,7 +54,7 @@ export class TaskService {
       id: activity.id,
       priority: priority,
       completed: false,
-      description: activity.description
+      description: activity.title
     }
 
     return this.http.put(`${this.basUrl}tasks/${activity.id}`, model);
@@ -66,10 +66,20 @@ export class TaskService {
       id: task.id,
       priority: task.priority,
       completed: false,
-      description: task.description
+      description: task.title
     }
 
     return this.http.put(`${this.basUrl}tasks/${task.id}`, model);
 
   }
+
+  loadPriorityOptions() {
+    return Object.keys(PriorityEnum)
+      .filter((key) => isNaN(Number(key)))
+      .map((key) => ({
+        value: PriorityEnum[key as keyof typeof PriorityEnum].toString(),
+        label: PriorityEnum[PriorityEnum[key as keyof typeof PriorityEnum]]
+      }));
+  }
+
 }

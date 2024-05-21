@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {ILoginModel, ILoginResponseModel} from "../models/login.model";
 import {Observable} from "rxjs";
 import {TokenStorageService} from "./token-storage.service";
-import {environment} from "../../environments/environment";
+import {environment} from "../../../environments/environment";
 
 
 @Injectable({

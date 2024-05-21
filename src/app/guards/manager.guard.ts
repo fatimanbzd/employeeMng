@@ -1,7 +1,7 @@
 import {ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {inject} from "@angular/core";
-import {AuthService} from "../services/auth.service";
-import {RoleEnum} from "../enums/role.enum";
+import {AuthService} from "../shared/services/auth.service";
+import {RoleEnum} from "../shared/enums/role.enum";
 import {Observable} from "rxjs";
 
 

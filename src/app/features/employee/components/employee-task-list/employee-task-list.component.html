@@ -15,10 +15,10 @@
   <tbody>
     @for (task of tasksData.data; track $index) {
       <tr>
-        <td>{{ task.description }}</td>
+        <td>{{ task.title }}</td>
 
         <td>
-          {{ task.assignedEmployee.name }}
+          {{ task.assignedEmployee?.name }}
         </td>
 
         <td>

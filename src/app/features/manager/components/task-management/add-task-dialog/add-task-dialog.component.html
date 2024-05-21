@@ -2,54 +2,52 @@
   <h5 class="m-0">New Task</h5>
   <i class="fa fa-close text-secondary" (click)="activeModal.close(false)" [ngbTooltip]="'Close'"></i>
 </div>
-<form id="profile-form"
-      [formGroup]="form"
-      (ngSubmit)="submit()"
-      class="setting_form p-1">
-  <div class="row p-0 m-0">
-    <div class="col-lg-6 mt-4">
-      <div class="form-row-title">
-        <label class="form-label required">Title</label>
-      </div>
-      <div class="form-row form-group">
-        <div class="custom-select-ui">
-          <input type="text"
-                 class="input-ui pr-2 box-input form-control"
-                 formControlName="title"
-                 [ngClass]="{'is-valid': submitted && form.controls['title'].valid, 'is-invalid': submitted && form.controls['title'].invalid}">
-          <span class="error"
-                [style.visibility]="form.get('title')?.invalid && (form.controls['title'].dirty || submitted) ? 'visible' : 'hidden'">
-           Title is required!
-          </span>
+<div class="modal-body">
+  <form nz-form
+        [formGroup]="addTaskForm"
+        (ngSubmit)="submit(addTaskForm)">
+    <div class="p-4">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="24" nzRequired nzNoColon>Title</nz-form-label>
+        <nz-form-control [nzErrorTip]="'Title is required'">
+          <input class="form-control"
+                 formControlName="title"/>
+        </nz-form-control>
+      </nz-form-item>
 
-        </div>
-      </div>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="24" nzNoColon>Employee</nz-form-label>
+        <nz-form-control nzErrorTip=" Employee is required!">
+          <select class="form-control"
+                  formControlName="employeeId"
+                  [ngClass]="{'is-valid': submitted && addTaskForm.controls['employeeId'].valid, 'is-invalid': submitted && addTaskForm.controls['employeeId'].invalid}">
+            @for (em of employeesList; track em) {
+              <option [value]="em.value">{{ em.label }}</option>
+            }
+          </select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="24" nzNoColon>Priority</nz-form-label>
+        <nz-form-control>
+          <select class="form-control"
+                  formControlName="priority"
+                  [ngClass]="{'is-valid': submitted && addTaskForm.controls['priority'].valid, 'is-invalid': submitted && addTaskForm.controls['priority'].invalid}">
+            @for (pr of optionList; track pr) {
+              <option [value]="pr.value">{{ pr.label }}</option>
+            }
+          </select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <button id="submit-btn"
+                type="submit"
+                class="btn btn-primary btn-with-icon ml-2 w-100"
+                [disabled]="addTaskForm.invalid">
+          Submit
+        </button>
+      </nz-form-item>
     </div>
-    <div class="col-lg-12 mt-4">
-      <div class="form-label">
-        <label class="form-label required">
-          Description
-        </label>
-      </div>
-      <div class="form-row form-group">
-        <textarea name="address"
-                  class="input-ui pr-2 text-right box-address-input form-control"
-                  formControlName="description"></textarea>
-
-      </div>
-    </div>
-  </div>
-
-  <hr>
-  <div class="form-row mt-3 footer-modal">
-    <button type="button"
-            class="btn btn-danger btn-with-icon ml-2"
-            (click)="activeModal.close(false)"
-    >
-      close
-    </button>
-    <button id="submit-btn" type="submit" class="btn btn-success btn-with-icon ml-2">
-      Save
-    </button>
-  </div>
-</form>
+  </form>
+</div>

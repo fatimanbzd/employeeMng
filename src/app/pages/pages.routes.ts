@@ -1,12 +1,10 @@
 import {Routes} from '@angular/router';
 import {PagesComponent} from './pages.component';
-import {ManagerPageComponent} from "./manager-page/manager-page.component";
-import {RoleEnum} from "../enums/role.enum";
+import {RoleEnum} from "../shared/enums/role.enum";
 import {TaskManagementComponent} from "../features/manager/components/task-management/task-management.component";
 import {
   EmployeeTaskListComponent
 } from "../features/employee/components/employee-task-list/employee-task-list.component";
-import {ManagerGuard} from "../guards/manager.guard";
 
 export const Pages_ROUTES: Routes = [
   {
@@ -24,7 +22,7 @@ export const Pages_ROUTES: Routes = [
         data: {
           roles: [RoleEnum.manager]
         },
-        canActivate: [ManagerGuard]
+        // canActivate: [ManagerGuard]
       },
       {
         path: 'task-list',

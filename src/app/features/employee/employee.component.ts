@@ -1,8 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {IActivityModel} from "../../models/employee.model";
-import {ManagerTaskMngService} from "../services/task.service";
+import {Component, OnInit} from '@angular/core';
+import {IActivityModel} from "../../shared/models/employee.model";
+import {TaskService} from "../services/task.service";
 import {ActivatedRoute} from "@angular/router";
-import {HttpClientModule} from "@angular/common/http";
 
 @Component({
   selector: 'app-employee',
@@ -16,21 +15,17 @@ export class EmployeeComponent implements OnInit {
   activities: IActivityModel[] = [];
 
   constructor(private route: ActivatedRoute,
-              private activityService: ManagerTaskMngService) {
+              private activityService: TaskService) {
   }
 
   ngOnInit(): void {
     this.employeeId = Number(this.route.snapshot.paramMap.get('id'));
-    this.activityService.employees$.subscribe(employees => {
-      const employee = employees.find(emp => emp.id === this.employeeId);
-      if (employee) {
-        this.activities = employee.activities;
-      }
+    this.activityService.taskUpdated$.subscribe(() => {
     });
   }
 
   markAsCompleted(activityId: number) {
-    this.activityService.markActivityCompleted(this.employeeId, activityId);
+    // this.activityService.markTaskCompleted(activityId);
   }
 
 }

@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {IActivityModel, IEmployeeModel, IEmployeeOption} from "../../../../models/employee.model";
+import {IActivityModel, IEmployeeModel, IEmployeeOption} from "../../../../shared/models/employee.model";
 import {TaskService} from "../../../services/task.service";
 import {forkJoin, map, Subject, takeUntil} from "rxjs";
 import {NzTableComponent, NzTableModule} from "ng-zorro-antd/table";
@@ -11,7 +11,8 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AddTaskDialogComponent} from "./add-task-dialog/add-task-dialog.component";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
 import {FormsModule} from "@angular/forms";
-import {PriorityEnum, PriorityLabel} from "../../../enums/priority.enum";
+import {PriorityEnum} from "../../../enums/priority.enum";
+import {NzInputDirective} from "ng-zorro-antd/input";
 
 @Component({
   selector: 'app-task-management',
@@ -26,6 +27,7 @@ import {PriorityEnum, PriorityLabel} from "../../../enums/priority.enum";
     NzSelectComponent,
     FormsModule,
     NzOptionComponent,
+    NzInputDirective,
   ],
   templateUrl: './task-management.component.html',
   styleUrl: './task-management.component.css'
@@ -33,37 +35,41 @@ import {PriorityEnum, PriorityLabel} from "../../../enums/priority.enum";
 
 export class TaskManagementComponent implements OnInit, OnDestroy {
   tasks: IActivityModel[] = [];
+  editId: string | null = null;
   employeesList: IEmployeeOption[] = [];
+  optionList: { value: string, label: string }[] = [];
+  priorityFilterList: { value: string, text: string }[] = Object.keys(PriorityEnum)
+    .filter((key) => isNaN(Number(key)))
+    .map((key) => ({
+      value: PriorityEnum[key as keyof typeof PriorityEnum].toString(),
+      text: PriorityEnum[PriorityEnum[key as keyof typeof PriorityEnum]]
+    }));
   private _destroy = new Subject<void>();
 
-  constructor(private activityService: TaskService,
+  constructor(private taskService: TaskService,
               private modalService: NgbModal) {
-    this.activityService.employees$.subscribe(tasks => {
-      this.tasks = tasks;
+    this.taskService.taskUpdated$.subscribe(() => {
+      this.loadData();
     });
   }
 
+  startEdit(id: string): void {
+    this.editId = id;
+  }
+
+  stopEdit(): void {
+    this.editId = null;
+  }
+
   ngOnInit(): void {
-    this.loadPriorityOptions();
+    this.optionList = this.taskService.loadPriorityOptions();
     this.loadData();
   }
 
-  optionList: { value: string, label: string }[] = [];
-
-  loadPriorityOptions() {
-    this.optionList = Object.keys(PriorityEnum)
-      .filter((key) => isNaN(Number(key)))
-      .map((key) => ({
-        value: PriorityEnum[key as keyof typeof PriorityEnum].toString(),
-        label: PriorityLabel[PriorityEnum[key as keyof typeof PriorityEnum]]
-      }));
-  }
-
-
   loadData() {
     forkJoin({
-      employees: this.activityService.employees(),
-      activities: this.activityService.activities()
+      employees: this.taskService.employees(),
+      activities: this.taskService.activities()
     }).pipe(
       takeUntil(this._destroy),
       map(({employees, activities}) => {
@@ -84,18 +90,20 @@ export class TaskManagementComponent implements OnInit, OnDestroy {
           throw new Error('Expected arrays for employees and activities');
         }
       })
-    ).subscribe(employees => {
-      this.activityService.setActivity(employees);
+    ).subscribe(activities => {
+      this.tasks = activities;
     });
   }
 
-  newTask() {
-    this.modalService.open(AddTaskDialogComponent);
+  modalTask(task?: IActivityModel) {
+    const modal = this.modalService.open(AddTaskDialogComponent);
+    modal.componentInstance.data = task;
+    modal.componentInstance.lastId = this.tasks[this.tasks.length - 1].id;
   }
 
   complete(completed: boolean, task: IActivityModel,) {
     const model = !completed;
-    this.activityService.markTaskCompleted(model, task)
+    this.taskService.markTaskCompleted(model, task)
       .pipe(takeUntil(this._destroy),)
       .subscribe(() =>
         this.loadData()
@@ -103,17 +111,17 @@ export class TaskManagementComponent implements OnInit, OnDestroy {
   }
 
   setPriority(task: IActivityModel, priority: number) {
-    this.activityService.setActivityPriority(task, priority)
+    this.taskService.setActivityPriority(task, priority)
       .pipe(takeUntil(this._destroy))
       .subscribe();
   }
 
   setEmployee(task: IActivityModel, selectedEmployeeId: number) {
     const selectedEmployee = this.employeesList.find(emp => emp.value === selectedEmployeeId);
-    if (selectedEmployee) {
+    if (selectedEmployee && task.assignedEmployee) {
       task.assignedEmployee.id = selectedEmployee.value;
       task.assignedEmployee.name = selectedEmployee.label;
-      this.activityService.assignToEmployee(task, selectedEmployeeId)
+      this.taskService.assignToEmployee(task, selectedEmployeeId)
         .pipe(takeUntil(this._destroy))
         .subscribe();
     }
